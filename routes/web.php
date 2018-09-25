@@ -90,3 +90,9 @@ Route::name('user.')->prefix('user')->group(function () {
 Route::get('test', function () {
     return route('user.show', [100]);
 });
+
+Route::get('task', 'TaskController@index');
+Route::get('task/create', 'TaskController@create');
+Route::post('task', 'TaskController@store');
+
+Route::resource('post', 'PostController');
