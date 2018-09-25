@@ -96,3 +96,19 @@ Route::get('task/create', 'TaskController@create');
 Route::post('task', 'TaskController@store');
 
 Route::resource('post', 'PostController');
+
+Route::get('task/{id}', function ($id) {
+    $task = \App\Models\Task::findOrFail($id);
+});
+
+Route::get('task/{task}', function (\App\Models\Task $task) {
+    dd($task);
+});
+
+Route::get('task/model/{task_model}', function (\App\Models\Task $task) {
+    dd($task);
+});
+
+Route::fallback(function () {
+    return '我是最后的屏障';
+});
