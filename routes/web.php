@@ -12,17 +12,21 @@
 */
 
 Route::get('/', function () {
-    return "Hello, World!";
+    return view('welcome');
 });
 
 // 路由参数
 Route::get('user/{id?}', function ($id = 1) {
-    return "用户ID: " . $id;
+    return view('user.profile', ['id' => $id]);
 })->name('user.profile');
 
 Route::get('page/{id}', function ($id) {
-    return '页面ID: ' . $id;
+    return view('page.show', ['id' => $id]);
 })->where('id', '[0-9]+');
+
+Route::get('page/css', function () {
+    return view('page.style');
+});
 
 Route::get('page/{name}', function ($name) {
     return '页面名称: ' . $name;
@@ -77,7 +81,7 @@ Route::domain('{account}.blog.test')->group(function () {
 // 命名空间
 
 // 路由命名+路径前缀
-Route::name('user.')->prefix('user')->group(function () {
+/*Route::name('user.')->prefix('user')->group(function () {
     Route::get('{id?}', function ($id = 1) {
         // 处理 /user/{id} 路由，路由命名为 user.show
         return route('user.show');
@@ -85,7 +89,7 @@ Route::name('user.')->prefix('user')->group(function () {
     Route::get('posts', function () {
         // 处理 /user/posts 路由，路由命名为 user.posts
     })->name('posts');
-});
+});*/
 
 Route::get('test', function () {
     return route('user.show', [100]);

@@ -13,7 +13,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        view()->share('siteName', 'Laravel学院');
+        view()->share('siteUrl', 'https://laravelacademy.org');
     }
 
     /**
