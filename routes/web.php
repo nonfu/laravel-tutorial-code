@@ -125,6 +125,8 @@ Route::delete('task/{id}', function ($id) {
     return 'Delete Task ' . $id;
 })->name('task.delete');
 
+Route::post('form/{id}', 'RequestController@form');
+
 Route::fallback(function () {
     return '我是最后的屏障';
 });
