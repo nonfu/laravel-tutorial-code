@@ -125,6 +125,11 @@ Route::delete('task/{id}', function ($id) {
     return 'Delete Task ' . $id;
 })->name('task.delete');
 
+Route::get('form', 'RequestController@formPage');
+Route::post('form/file_upload', 'RequestController@fileUpload');
+
+Route::get('users', 'UserController@getIndex');
+
 Route::post('form/{id}', 'RequestController@form');
 
 Route::fallback(function () {
