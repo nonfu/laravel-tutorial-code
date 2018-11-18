@@ -126,11 +126,17 @@ Route::delete('task/{id}', function ($id) {
 })->name('task.delete');
 
 Route::get('form', 'RequestController@formPage');
+Route::post('form', 'RequestController@form')->name('form.submit');
 Route::post('form/file_upload', 'RequestController@fileUpload');
 
-Route::get('users', 'UserController@getIndex');
+Route::get('/reflection', function () {
+    $reflection = new ReflectionClass(\App\Services\StripeBiller::class);
+    dump($reflection->getMethods());  # 获取 StripeBiller 类中的所有方法
+    dump($reflection->getNamespaceName());  # 获取 StripeBiller 的命名空间
+    dump($reflection->getProperties());  # 获取 StripeBiller 上的所有属性
+});
 
-Route::post('form/{id}', 'RequestController@form');
+Route::get('users', 'UserController@getIndex');
 
 Route::fallback(function () {
     return '我是最后的屏障';

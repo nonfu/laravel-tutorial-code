@@ -8,7 +8,7 @@
     <div class="form-group">
         <label for="picture">上传一张图片</label>
         <input type="file" class="form-control-file" id="picture" ref="picture" v-on:change="uploadFile"/>
-        <input type="hidden" id="picture-path" value="">
+        <input type="hidden" id="picture-path" name="picture" value="">
         <div id="picture-preview">
 
         </div>
@@ -33,6 +33,11 @@
                     $('#picture-path').val(response.data.path);
                     $('#picture-preview').html('<img src="' + response.data.path + '">')
                 }).catch(function (error) {
+                    if (error.response.status === 422) {
+                        $.each(error.response.data.errors, function (field, errors) {
+                            $('#picture-preview').append('<div class="alert alert-danger">' + errors[0] + '</div>');
+                        });
+                    }
                     console.log(error);
                 });
             }

@@ -2,28 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SubmitFormRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class RequestController extends Controller
 {
-    public function form(Request $request, $id)
+    public function form(SubmitFormRequest $request)
     {
-        // 通过 $request 实例获取请求数据
-        // dd($request->all());
-        // dd($request->except('id'));
-        // dd($request->only(['name', 'site', 'domain']));
-        // $id = $request->has('id') ? $request->get('id') : 0;
-        // dd($id);
-        // dd($request->input('books'));
-        // dd($request->input('books.0'));
-        // dump($request->input('books.0.author'));
-        // dump($request->input('books.1'));
-        dump($request->json('site'));
-        dump($request->input('books.0.author'));
-        dump($request->input('books.1'));
-        dump($request->segments());
-        dump($id == $request->segment(2));
+        return response('表单验证通过');
     }
 
     public function formPage()
@@ -33,6 +21,15 @@ class RequestController extends Controller
 
     public function fileUpload(Request $request)
     {
+        $this->validate($request, [
+            'picture' => 'bail|required|image|mimes:jpg,png,jpeg|max:1024'
+        ],[
+            'picture.required' => '请选择要上传的图片',
+            'picture.image' => '只支持上传图片',
+            'picture.mimes' => '只支持上传jpg/png/jpeg格式图片',
+            'picture.max' => '上传图片超过最大尺寸限制(1M)'
+        ]);
+
         if ($request->hasFile('picture')) {
             $picture = $request->file('picture');
             if (!$picture->isValid()) {

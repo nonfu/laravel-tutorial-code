@@ -2,6 +2,13 @@
 
 namespace App\Providers;
 
+use App\Contracts\BillerInterface;
+use App\Contracts\BillingNotifierInterface;
+use App\Contracts\UserRepositoryInterface;
+use App\Repositories\UserRepository;
+use App\Services\EmailBillingNotifier;
+use App\Services\SmsBillingNotifier;
+use App\Services\StripeBiller;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -24,6 +31,19 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->bind(UserRepositoryInterface::class, function ($app) {
+            return new UserRepository();
+        });
+
+        // 延迟实例化
+        $this->app->bind(BillerInterface::class, function ($app) {
+            return new StripeBiller($app->make(BillingNotifierInterface::class));
+        });
+
+        // 立即实例化
+        //$this->app->bind(BillingNotifierInterface::class, StripeBiller::class);
+
+        $notifier = new SmsBillingNotifier;
+        $this->app->instance(BillingNotifierInterface::class, $notifier);
     }
 }

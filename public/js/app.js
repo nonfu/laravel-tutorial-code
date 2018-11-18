@@ -48005,6 +48005,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 $('#picture-path').val(response.data.path);
                 $('#picture-preview').html('<img src="' + response.data.path + '">');
             }).catch(function (error) {
+                if (error.response.status === 422) {
+                    $.each(error.response.data.errors, function (field, errors) {
+                        $('#picture-preview').append('<div class="alert alert-danger">' + errors[0] + '</div>');
+                    });
+                }
                 console.log(error);
             });
         }
@@ -48029,7 +48034,9 @@ var render = function() {
       on: { change: _vm.uploadFile }
     }),
     _vm._v(" "),
-    _c("input", { attrs: { type: "hidden", id: "picture-path", value: "" } }),
+    _c("input", {
+      attrs: { type: "hidden", id: "picture-path", name: "picture", value: "" }
+    }),
     _vm._v(" "),
     _c("div", { attrs: { id: "picture-preview" } })
   ])
