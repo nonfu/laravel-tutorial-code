@@ -16,3 +16,30 @@ use Illuminate\Foundation\Inspiring;
 Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->describe('Display an inspiring quote');
+
+
+Artisan::command('welcome:message_simple', function () {
+    $this->info('欢迎访问 Laravel 学院!');
+})->describe('打印欢迎信息');
+
+Artisan::command('welcome:output_table', function () {
+    $headers = ['姓名', '城市'];
+    $data = [
+        ['张三', '北京'],
+        ['李四', '上海']
+    ];
+    $this->table($headers, $data);
+})->describe('打印图表');
+
+Artisan::command('welcome:progress_bar', function () {
+    $totalUnits = 10;
+    $this->output->progressStart($totalUnits);
+
+    $i = 0;
+    while ($i++ < $totalUnits) {
+        sleep(1);
+        $this->output->progressAdvance();
+    }
+
+    $this->output->progressFinish();
+})->describe('打印图表');

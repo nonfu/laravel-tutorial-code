@@ -138,6 +138,13 @@ Route::get('/reflection', function () {
 
 Route::get('users', 'UserController@getIndex');
 
+Route::get('test_artisan', function () {
+    $exitCode = Artisan::call('welcome:message', [
+        'name' => '学院君',
+        '--city' => '杭州'
+    ]);
+});
+
 Route::fallback(function () {
     return '我是最后的屏障';
 });

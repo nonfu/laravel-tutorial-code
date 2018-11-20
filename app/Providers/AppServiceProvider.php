@@ -10,6 +10,7 @@ use App\Services\EmailBillingNotifier;
 use App\Services\SmsBillingNotifier;
 use App\Services\StripeBiller;
 use Illuminate\Support\ServiceProvider;
+use Laravel\Telescope\TelescopeServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -31,6 +32,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        if ($this->app->isLocal()) {
+            $this->app->register(TelescopeServiceProvider::class);
+        }
+
         $this->app->bind(UserRepositoryInterface::class, function ($app) {
             return new UserRepository();
         });
