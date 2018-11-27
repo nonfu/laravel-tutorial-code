@@ -4,7 +4,9 @@ namespace App\Providers;
 
 use App\Contracts\BillerInterface;
 use App\Contracts\BillingNotifierInterface;
+use App\Contracts\OrderRepositoryInterface;
 use App\Contracts\UserRepositoryInterface;
+use App\Repositories\DummyOrderRepository;
 use App\Repositories\UserRepository;
 use App\Services\EmailBillingNotifier;
 use App\Services\SmsBillingNotifier;
@@ -50,5 +52,9 @@ class AppServiceProvider extends ServiceProvider
 
         $notifier = new SmsBillingNotifier;
         $this->app->instance(BillingNotifierInterface::class, $notifier);
+
+        $this->app->bind(OrderRepositoryInterface::class, function ($app) {
+            return new DummyOrderRepository();
+        });
     }
 }

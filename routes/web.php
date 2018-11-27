@@ -145,6 +145,49 @@ Route::get('test_artisan', function () {
     ]);
 });
 
+Route::get('test_db', function () {
+    //$name = '学院君';
+    //$users = DB::select('select * from `users` where `name` = :name', ['name' => $name]);
+    /*$name = str_random(10);
+    $email = str_random(10) . '@163.com';
+    $password = bcrypt('secret');
+    $flag = DB::insert('insert into `users` (`name`, `email`, `password`) values (?, ?, ?)', [$name, $email, $password]);
+    */
+    /*$name = str_random(8);
+    $id = 8;
+    $affectedRows = DB::update('update `users` set `name` = ? where id = ?', [$name, $id]);*/
+    $id = 8;
+    $affectedRows = DB::delete('delete from `users` where id = ?', [$id]);
+    dd($affectedRows);
+});
+
+Route::get('test_query_builder', function () {
+    //$users = DB::table('users')->get();
+    // $name = '学院君';
+    // $user = DB::table('users')->select('id', 'name', 'email')->where('name', $name)->first();
+    /*$flag = DB::table('users')->insert([
+        'name' => str_random(10),
+        'email' => str_random(8) . '@163.com',
+        'password' => bcrypt('secret')
+    ]);*/
+    /*$userId = DB::table('users')->insertGetId([
+        'name' => str_random(10),
+        'email' => str_random(8) . '@qq.com',
+        'password' => bcrypt('secret')
+    ]);*/
+    /*DB::table('users')->insert([
+        ['name' => str_random(10), 'email' => str_random(8) . '@qq.com', 'password' => bcrypt('123')],
+        ['name' => str_random(10), 'email' => 'smlQYzUg@qq.com', 'password' => bcrypt('456')],
+        ['name' => str_random(10), 'email' => str_random(8) . '@qq.com', 'password' => bcrypt('789')],
+    ]);*/
+
+    /*$id = 11;
+    $affectedRows = DB::table('users')->where('id', '>', $id)->update(['name' => str_random(8)]);*/
+    $id = 11;
+    $affectedRows = DB::table('users')->where('id', '>=', $id)->delete();
+    dd($affectedRows);
+});
+
 Route::fallback(function () {
     return '我是最后的屏障';
 });
