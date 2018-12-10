@@ -20,9 +20,9 @@ Route::get('user/{id?}', function ($id = 1) {
     return view('user.profile', ['id' => $id]);
 })->name('user.profile');
 
-Route::get('page/{id}', function ($id) {
+/*Route::get('page/{id}', function ($id) {
     return view('page.show', ['id' => $id]);
-})->where('id', '[0-9]+');
+})->where('id', '[0-9]+');*/
 
 Route::get('page/css', function () {
     return view('page.style');
@@ -183,11 +183,67 @@ Route::get('test_query_builder', function () {
 
     /*$id = 11;
     $affectedRows = DB::table('users')->where('id', '>', $id)->update(['name' => str_random(8)]);*/
-    $id = 11;
+    /*$id = 11;
     $affectedRows = DB::table('users')->where('id', '>=', $id)->delete();
-    dd($affectedRows);
+    dd($affectedRows);*/
+    // $name = '学院君';
+    // $names = DB::table('users')->where('name', $name)->value('email');
+    // $exists = DB::table('users')->where('name', $name)->exists();
+
+    /*$users = DB::table('users')->where('id', '<', 10)->pluck('name', 'id');
+
+    $names = [];
+    DB::table('users')->orderBy('id')->chunk(5, function ($users) use (&$names) {
+        foreach ($users as $user) {
+            $names[] = $user->name;
+        }
+    });
+    */
+
+    /*$num = DB::table('users')->count();       # 计数     9
+    $sum = DB::table('users')->sum('id');     # 求和    45
+    $avg = DB::table('users')->avg('id');     # 平均值   5
+    $min = DB::table('users')->min('id');     # 最小值   1
+    $max = DB::table('users')->max('id');     # 最大值   9
+    dd($max);*/
+
+    /*$posts = DB::table('posts')
+        ->join('users', 'users.id', '=', 'posts.user_id')
+        ->select('posts.*', 'users.name', 'users.email')
+        ->get();*/
+
+    /*$posts = DB::table('posts')
+        ->rightJoin('users', 'users.id', '=', 'posts.user_id')
+        ->select('posts.*', 'users.name', 'users.email')
+        ->get();*/
+
+    /*$posts = DB::table('posts')
+        ->join('users', function ($join) {
+            $join->on('users.id', '=', 'posts.user_id')
+                ->whereNotNull('users.email_verified_at');
+        })
+        ->select('posts.*', 'users.name', 'users.email')
+        ->where('views', '>', 0)
+        ->get();*/
+
+    $posts_a = DB::table('posts')->where('views', 0);
+    $posts_b = DB::table('posts')->where('id', '<', 10)->union($posts_a)->get();
+
+    dd($posts_b);
+
 });
+
+Route::get('/query_builder/union', 'QueryController@union');
+Route::get('/query_builder/unionAll', 'QueryController@unionAll');
+Route::get('/query_builder/where', 'QueryController@where');
+Route::get('/query_builder/eloquent', 'QueryController@eloquent');
+
+Route::any('/eloquent/model', 'QueryController@model');
+Route::any('/eloquent/relationship', 'QueryController@relationship');
 
 Route::fallback(function () {
     return '我是最后的屏障';
 });
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

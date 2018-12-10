@@ -43,7 +43,7 @@ return [
             'driver' => 'mysql',
             'read' => [
                 'host' => env('DB_HOST_READ', '127.0.0.1'),
-                'database' => env('DB_DATABASE', 'forge'),
+                'database' => env('DB_DATABASE_WRITE', 'forge'),
             ],
             'write' => [
                 'host' => env('DB_HOST_WRITE', '127.0.0.1'),

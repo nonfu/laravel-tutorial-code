@@ -9,8 +9,12 @@ use App\Contracts\UserRepositoryInterface;
 use App\Repositories\DummyOrderRepository;
 use App\Repositories\UserRepository;
 use App\Services\EmailBillingNotifier;
+use App\Extensions\MongoStore;
 use App\Services\SmsBillingNotifier;
 use App\Services\StripeBiller;
+use Illuminate\Cache\CacheManager;
+use Illuminate\Cache\Repository;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Telescope\TelescopeServiceProvider;
 
@@ -25,6 +29,10 @@ class AppServiceProvider extends ServiceProvider
     {
         view()->share('siteName', 'Laravel学院');
         view()->share('siteUrl', 'https://laravelacademy.org');
+
+        Cache::extend('mongo', function ($app) {
+            return new Repository(new MongoStore());
+        });
     }
 
     /**

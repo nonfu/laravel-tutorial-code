@@ -6,7 +6,7 @@
  * Time: 4:43 PM
  */
 
-namespace App\Repositories;
+namespace QuickBill\Repositories;
 
 use App\Contracts\UserRepositoryInterface;
 use App\User;
