@@ -17,6 +17,7 @@ window.Vue = require('vue');
 
 Vue.component('welcome-component', require('./components/WelcomeComponent.vue'));
 Vue.component('fileupload-component', require('./components/FileUploadComponent.vue'));
+Vue.component('pagination-component', require('./components/PaginationComponent.vue'));
 
 const app = new Vue({
     el: '#app'

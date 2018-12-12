@@ -10,6 +10,7 @@ use App\Post;
 use App\Tag;
 use App\User;
 use App\UserProfile;
+use Faker\Generator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -86,6 +87,9 @@ class QueryController extends Controller
             ->get();
 
         //dd($posts);
+
+        $res = DB::select('select round(avg(views), 2) as views from posts');
+        dd($res);
 
         return view('welcome');
     }
@@ -362,10 +366,19 @@ class QueryController extends Controller
 
         //$post->tags()->detach($tag->id);
 
-        $comment = Comment::with('commentable')->findOrFail(31);
-        $comment->content = 'Laravel学院致力于提供优质Laravel中文学习资源';
-        $comment->save();
+//        $comment = Comment::with('commentable')->findOrFail(31);
+//        $comment->content = 'Laravel学院致力于提供优质Laravel中文学习资源';
+//        $comment->save();
 
-        return $comment;
+        //return $comment;
+        $posts = Post::all();
+        $faker = \Faker\Factory::create();
+        foreach ($posts as $post) {
+            $title = $faker->sentence;
+            $post->title = trim($title, '.');
+            $post->save();
+        }
+
+        return 'success';
     }
 }
