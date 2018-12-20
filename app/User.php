@@ -9,10 +9,11 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use Notifiable;
+    use HasApiTokens, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -67,9 +68,9 @@ class User extends Authenticatable
         parent::boot();
 
         //static::addGlobalScope(new EmailVerifiedAtScope());
-        static::addGlobalScope('email_verified_at_scope', function (Builder $builder) {
+        /*static::addGlobalScope('email_verified_at_scope', function (Builder $builder) {
             return $builder->whereNotNull('email_verified_at');
-        });
+        });*/
     }
 
     public function profile()

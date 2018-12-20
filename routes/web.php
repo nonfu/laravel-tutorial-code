@@ -53,14 +53,14 @@ Route::middleware('auth')->group(function () {
 });
 
 // 路由前缀
-Route::prefix('api')->group(function () {
+/*Route::prefix('api')->group(function () {
     Route::get('/', function () {
         // 处理 /api 路由
     })->name('api.index');
     Route::get('users', function () {
         // 处理 /api/users 路由
     })->name('api.users');
-});
+});*/
 
 // 子域名
 Route::domain('api.blog.test')->group(function () {
@@ -136,7 +136,7 @@ Route::get('/reflection', function () {
     dump($reflection->getProperties());  # 获取 StripeBiller 上的所有属性
 });
 
-Route::get('users', 'UserController@getIndex');
+//Route::get('users', 'UserController@getIndex');
 
 Route::get('test_artisan', function () {
     $exitCode = Artisan::call('welcome:message', [
@@ -241,9 +241,17 @@ Route::get('/query_builder/eloquent', 'QueryController@eloquent');
 Route::any('/eloquent/model', 'QueryController@model');
 Route::any('/eloquent/relationship', 'QueryController@relationship');
 
+
+Auth::routes();
+Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('admin/login', 'Admin\LoginController@showLoginForm')->name('admin.login');
+Route::post('admin/login', 'Admin\LoginController@login');
+Route::get('admin/register', 'Admin\RegisterController@showRegistrationForm')->name('admin.register');
+Route::post('admin/register', 'Admin\RegisterController@register');
+Route::post('admin/logout', 'Admin\LoginController@logout')->name('admin.logout');
+Route::get('admin', 'AdminController@index')->name('admin.home');
+
 Route::fallback(function () {
     return '我是最后的屏障';
 });
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');

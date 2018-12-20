@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
@@ -27,6 +28,14 @@ class LoginController extends Controller
      */
     protected $redirectTo = '/home';
 
+    // 单位时间内最大登录尝试次数
+    //protected $maxAttempts = 3;
+    // 单位时间值
+    //protected $decayMinutes = 30;
+
+    // 支持的登录字段
+    protected $supportFields = ['name', 'email'];
+
     /**
      * Create a new controller instance.
      *
@@ -35,5 +44,22 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+    }
+
+    /*public function username()
+    {
+        return 'name';
+    }*/
+
+    // 将支持的登录字段都传递到 UserProvider 进行查询
+    public function credentials(Request $request)
+    {
+        $credentials = $request->only($this->username(), 'password');
+        foreach ($this->supportFields as $field) {
+            if (empty($credentials[$field])) {
+                $credentials[$field] = $credentials[$this->username()];
+            }
+        }
+        return $credentials;
     }
 }

@@ -14,7 +14,13 @@ class TaskController extends Controller
 
     public function index()
     {
+        dd('tasks');
         return view('task.index')->with('tasks', Task::all());
+    }
+
+    public function index2()
+    {
+        dd('tasks2');
     }
 
     public function create()
