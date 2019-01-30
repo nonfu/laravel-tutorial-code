@@ -1,5 +1,4 @@
 <?php
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -242,8 +241,8 @@ Route::any('/eloquent/model', 'QueryController@model');
 Route::any('/eloquent/relationship', 'QueryController@relationship');
 
 
-Auth::routes();
-Route::get('/home', 'HomeController@index')->name('home');
+Auth::routes(['verify' => true]);
+Route::get('/home', 'HomeController@index')->name('home')->middleware('verified');
 
 Route::get('admin/login', 'Admin\LoginController@showLoginForm')->name('admin.login');
 Route::post('admin/login', 'Admin\LoginController@login');
@@ -251,6 +250,8 @@ Route::get('admin/register', 'Admin\RegisterController@showRegistrationForm')->n
 Route::post('admin/register', 'Admin\RegisterController@register');
 Route::post('admin/logout', 'Admin\LoginController@logout')->name('admin.logout');
 Route::get('admin', 'AdminController@index')->name('admin.home');
+
+Route::get('auth/personal', 'Auth\LoginController@personal');
 
 Route::fallback(function () {
     return '我是最后的屏障';

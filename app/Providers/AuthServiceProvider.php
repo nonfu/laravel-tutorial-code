@@ -33,7 +33,18 @@ class AuthServiceProvider extends ServiceProvider
             return new EloquentUserProvider($app->make('hash'), $config['model']);
         });
 
+        // OAuth 相关路由
         Passport::routes();
+
+        // 启用隐式授权令牌
+        Passport::enableImplicitGrant();
+
+        // 令牌作用域
+        Passport::tokensCan([
+            'basic-user-info' => '获取用户名、邮箱信息',
+            'all-user-info' => '获取用户所有信息',
+            'get-post-info' => '获取文章详细信息',
+        ]);
     }
 
 }
